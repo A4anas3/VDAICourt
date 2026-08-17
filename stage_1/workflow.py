@@ -610,8 +610,9 @@ async def ocr_agent_node(state: AgentState) -> dict:
     output_dir   = _get_output_dir()
     rate_limiter = _get_shared_rate_limiter()
 
-    # Semaphore matching 3 RPM per key (15 RPM total 5-key pool capacity)
-    semaphore    = asyncio.Semaphore(15)
+    # Dynamic semaphore matching total RPM capacity across all active keys
+    total_capacity = int(os.getenv("RATE_LIMIT_RPM", str(len(rate_limiter.buckets) * 4)))
+    semaphore = asyncio.Semaphore(max(total_capacity, len(rate_limiter.buckets)))
 
     print(f"\n[Node: ocr_agent] Real-time per-page AI streaming for {total_pages} page(s) ...")
 

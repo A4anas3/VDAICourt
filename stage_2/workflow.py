@@ -58,10 +58,11 @@ async def run_stage2_pipeline_async(
         model = init_model()
 
     rate_limiter = make_async_rate_limiter()
-    semaphore = asyncio.Semaphore(15)
+    total_capacity = int(os.getenv("RATE_LIMIT_RPM", str(len(rate_limiter.buckets) * 4)))
+    semaphore = asyncio.Semaphore(max(total_capacity, len(rate_limiter.buckets)))
 
     print(f"\n=== Starting Stage 2: Page Classification & Evidence Extraction ({len(ocr_results)} pages) ===")
-    print(f"[Stage 2] Running 15 concurrent async workers across 5 API keys...")
+    print(f"[Stage 2] Running {max(total_capacity, len(rate_limiter.buckets))} concurrent async workers across {len(rate_limiter.buckets)} API keys...")
 
     tasks = [
         _process_single_page_stage2(page_item, model, rate_limiter, semaphore)
