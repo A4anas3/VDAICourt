@@ -149,7 +149,7 @@ class MultiKeyAsyncRateLimiter:
         if timeout is None:
             timeout = float(os.getenv("API_TIMEOUT", "220.0"))
 
-        max_retries = len(self.buckets) * 2
+        max_retries = int(os.getenv("MAX_RETRIES", "2"))
         last_exception = None
 
         for attempt in range(max_retries):

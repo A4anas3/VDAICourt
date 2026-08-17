@@ -436,9 +436,10 @@ async def _extract_candidate_page(
     divide_page = False
     accuracy_score = 0.85
     accuracy_level = "MEDIUM"
+    accuracy_reason = "Candidate Extraction (Pending Verification Audit)"
     api_timeout = float(os.getenv("STAGE1_API_TIMEOUT", os.getenv("API_TIMEOUT", "220.0")))
-
-    for attempt in range(1, 4):
+    max_retries = int(os.getenv("MAX_RETRIES", "2"))
+    for attempt in range(1, max_retries + 1):
         try:
             response1 = await rate_limiter.call(model, msgs_pass1, timeout=api_timeout)
             content_str = _extract_text_content(response1.content)
@@ -701,8 +702,9 @@ async def _verify_one_page(
         structured_verifier = None
 
     api_timeout = float(os.getenv("STAGE2_API_TIMEOUT", os.getenv("API_TIMEOUT", "220.0")))
+    max_retries = int(os.getenv("MAX_RETRIES", "2"))
 
-    for attempt in range(1, 4):
+    for attempt in range(1, max_retries + 1):
         try:
             if structured_verifier is not None:
                 res = await rate_limiter.call(structured_verifier, msgs_verify, timeout=api_timeout)
