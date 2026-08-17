@@ -436,8 +436,7 @@ async def _extract_candidate_page(
     divide_page = False
     accuracy_score = 0.85
     accuracy_level = "MEDIUM"
-    accuracy_reason = "Candidate Extraction (Pending Verification Audit)"
-    api_timeout = float(os.getenv("API_TIMEOUT", "300.0"))
+    api_timeout = float(os.getenv("STAGE1_API_TIMEOUT", os.getenv("API_TIMEOUT", "220.0")))
 
     for attempt in range(1, 4):
         try:
@@ -701,7 +700,7 @@ async def _verify_one_page(
     except Exception:
         structured_verifier = None
 
-    api_timeout = float(os.getenv("API_TIMEOUT", "120.0"))
+    api_timeout = float(os.getenv("STAGE2_API_TIMEOUT", os.getenv("API_TIMEOUT", "220.0")))
 
     for attempt in range(1, 4):
         try:

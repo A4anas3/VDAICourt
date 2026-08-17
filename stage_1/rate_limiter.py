@@ -147,7 +147,7 @@ class MultiKeyAsyncRateLimiter:
         Supports structured Pydantic output when `schema` parameter is provided.
         """
         if timeout is None:
-            timeout = float(os.getenv("API_TIMEOUT", "400.0"))
+            timeout = float(os.getenv("API_TIMEOUT", "220.0"))
 
         max_retries = len(self.buckets) * 2
         last_exception = None

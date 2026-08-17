@@ -77,7 +77,7 @@ def init_model(
             model=selected_model,
             google_api_key=target_api_key,
             temperature=temperature,
-            request_timeout=float(os.getenv("API_TIMEOUT", "400")),
+            request_timeout=float(os.getenv("API_TIMEOUT", "220.0")),
             **kwargs
         )
 
