@@ -1,0 +1,31 @@
+# Environment & Secrets
+.env
+*.env
+.env.*
+!.env.example
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Large files & Documents
+*.pdf
+PO_R_LS_RAIR_SHRN_RUK1_37748.pdf
+
+# Pipeline Outputs & Temporary Artifacts
+ocr_output/
+*.log
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# IDE & Editor Configs
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
